@@ -1,0 +1,6 @@
+Biomes: {
+	SlimeHome: {
+		DisplayName: Slime Home
+		TownNPCDialogueName: the Slime Home
+	}
+}
