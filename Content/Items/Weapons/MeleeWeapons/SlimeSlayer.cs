@@ -16,8 +16,8 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
             Item.height = 42;
 
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 20;
-            Item.useAnimation = 20;
+            Item.useTime = 100;
+            Item.useAnimation = 100;
             Item.autoReuse = true;
 
             Item.DamageType = DamageClass.Melee;
