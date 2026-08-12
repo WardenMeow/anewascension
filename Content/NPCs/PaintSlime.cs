@@ -34,9 +34,6 @@ namespace anewascension.Content.NPCs
     public override void ModifyNPCLoot(NPCLoot npcLoot)
     {
         npcLoot.Add(ItemDropRule.OneFromOptions(1, new int[] { ItemID.RedPaint, ItemID.BluePaint, ItemID.ShadowPaint }));
-        npcLoot.Add(ItemDropRule.Common(ItemID.RedPaint, 3, 1));
-        npcLoot.Add(ItemDropRule.Common(ItemID.BluePaint, 3, 1));
-        npcLoot.Add(ItemDropRule.Common(ItemID.ShadowPaint, 3, 1));
     }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
