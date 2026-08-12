@@ -9,8 +9,8 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
     public class SlimeSlayer : ModItem
     {
         public override void SetDefaults() {
-            Item.width = 26;
-            Item.height = 42;
+            Item.width = 75;
+            Item.height = 80;
         
 
             Item.useStyle = ItemUseStyleID.Swing;
