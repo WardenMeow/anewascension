@@ -67,12 +67,13 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
                 Projectile.NewProjectile(source, position, heading, type, damage * 2, knockback, player.whoAmI, 0f, ceilingLimit);
             }
 
-            public override void UseStyle(Player player, Rectangle heldItemFrame) 
-{
-    // This forces the rotation and snaps it back to the hand position
-    player.itemLocation = player.MountedCenter;
-}
+            return false;
         }
 
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
+        {
+            // This forces the rotation and snaps it back to the hand position
+            player.itemLocation = player.MountedCenter;
+        }
     }
 }
