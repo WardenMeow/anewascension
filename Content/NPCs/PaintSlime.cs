@@ -27,10 +27,10 @@ namespace anewascension.Content.NPCs
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.value = 60f;
             NPC.knockBackResist = 0.5f;
-            NPC.aiStyle = 1; // Slime AI
-            AIType = NPCID.BlueSlime; // Copy behavior from Blue Slime
+            NPC.aiStyle = 1; 
+            AIType = NPCID.BlueSlime; 
 
-            NPC.alpha = 100;
+            NPC.alpha = 100; // This makes the slime somewhat transparent. 
         }
 
     public override void ModifyNPCLoot(NPCLoot npcLoot)
