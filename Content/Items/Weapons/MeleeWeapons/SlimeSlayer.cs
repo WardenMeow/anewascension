@@ -12,8 +12,8 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
     {
         public override void SetDefaults()
         {
-            Item.width = 26;
-            Item.height = 42;
+            Item.width = 64;
+            Item.height = 64;
 
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 20;
