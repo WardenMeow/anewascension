@@ -72,7 +72,7 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
 
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(10, -2);
+            return new Vector2(10, -20);
         }
     }
 }
