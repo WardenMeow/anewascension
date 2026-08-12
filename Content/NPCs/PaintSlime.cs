@@ -30,6 +30,11 @@ namespace anewascension.Content.NPCs
             AIType = NPCID.BlueSlime; // Copy behavior from Blue Slime
         }
 
+    public override void ModifyNPCLoot(NPCLoot npcLoot)
+    {
+        npcLoot.Add(ItemDropRule.Common(ItemID.DirtBlock, 5));
+    }
+
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             // Spawn in the surface layer during the day
