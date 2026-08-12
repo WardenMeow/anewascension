@@ -58,6 +58,10 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
 				Projectile.NewProjectile(source, position, heading, type, damage * 2, knockback, player.whoAmI, 0f, ceilingLimit);
 			}
 
+            public override Vector2? HoldoutOffset() {
+    return new Vector2(10, -2); // Adjust X and Y values
+}
+
 			return false;
     }
 }
