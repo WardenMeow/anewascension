@@ -30,7 +30,7 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
             Item.shoot = ProjectileID.StarWrath;
             Item.shootSpeed = 8f;
         }    
-    }
+    
 
     public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
 			Vector2 target = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY);
@@ -43,7 +43,7 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
 				position = player.Center - new Vector2(Main.rand.NextFloat(401) * player.direction, 600f);
 				position.Y -= 100 * i;
 				Vector2 heading = target - position;
-
+            
 				if (heading.Y < 0f) {
 					heading.Y *= -1f;
 				}
@@ -60,4 +60,5 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
 
 			return false;
     }
+}
 }
