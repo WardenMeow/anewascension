@@ -33,7 +33,7 @@ namespace anewascension.Content.NPCs
 
     public override void ModifyNPCLoot(NPCLoot npcLoot)
     {
-        npcLoot.Add(ItemDropRule.Common(ItemID.DirtBlock, 5));
+        npcLoot.Add(ItemDropRule.Common(ItemID.DirtBlock, 100, 5, 10));
     }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
