@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.ItemDropRules;
 
 namespace anewascension.Content.NPCs
 {
