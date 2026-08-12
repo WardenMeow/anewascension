@@ -29,6 +29,8 @@ namespace anewascension.Content.NPCs
             NPC.knockBackResist = 0.5f;
             NPC.aiStyle = 1; // Slime AI
             AIType = NPCID.BlueSlime; // Copy behavior from Blue Slime
+
+            NPC.alpha = 100;
         }
 
     public override void ModifyNPCLoot(NPCLoot npcLoot)
