@@ -6,6 +6,8 @@ using Terraria.ModLoader;
 
 namespace anewascension.Content.Items.Weapons.MeleeWeapons
 {
+    
+
     public class SlimeSlayer : ModItem
     {
         public override void SetDefaults()
@@ -30,7 +32,7 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
             Item.shoot = ProjectileID.StarWrath;
             Item.shootSpeed = 8f;
         }
-
+    }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 target = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY);
@@ -72,6 +74,4 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
         {
             return new Vector2(10, -2);
         }
-    }
 }
-
