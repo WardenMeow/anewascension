@@ -4,3 +4,5 @@ Biomes: {
 		TownNPCDialogueName: the Slime Home
 	}
 }
+
+NPCs.PaintSlime.DisplayName: Paint Slime
