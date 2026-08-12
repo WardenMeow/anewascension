@@ -45,12 +45,5 @@ namespace anewascension.Content.NPCs
             }
             return 0f; // Do not spawn otherwise
         }
-
-public override Color? GetAlpha(Color lightColor) {
-    // This forces the slime's color to blend nicely with the environment light 
-    // while keeping your custom color tint and custom alpha opacity active.
-    return NPC.color * ((255 - NPC.alpha) / 255f);
-}
-
     }
 }
