@@ -72,7 +72,6 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
-            // This forces the rotation and snaps it back to the hand position
             player.itemLocation = player.MountedCenter;
         }
     }
