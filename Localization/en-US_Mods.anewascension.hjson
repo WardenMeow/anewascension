@@ -6,3 +6,10 @@ Biomes: {
 }
 
 NPCs.PaintSlime.DisplayName: Paint Slime
+
+Items: {
+	SlimeSlayer: {
+		DisplayName: Slime Slayer
+		Tooltip: ""
+	}
+}
