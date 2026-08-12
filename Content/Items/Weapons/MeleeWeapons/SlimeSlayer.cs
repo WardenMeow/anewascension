@@ -9,8 +9,8 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
     public class SlimeSlayer : ModItem
     {
         public override void SetDefaults() {
-            Item.width = 75;
-            Item.height = 80;
+            Item.width = 26;
+            Item.height = 42;
         
 
             Item.useStyle = ItemUseStyleID.Swing;
@@ -30,7 +30,7 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
             Item.shoot = ProjectileID.StarWrath;
             Item.shootSpeed = 8f;
         }    
-    
+    }
 
     public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
 			Vector2 target = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY);
@@ -60,5 +60,4 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
 
 			return false;
     }
-}
 }
