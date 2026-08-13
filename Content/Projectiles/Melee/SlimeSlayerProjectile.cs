@@ -26,9 +26,6 @@ namespace anewascension.Content.Projectiles.Melee
             // 1. Add a soft blue/aquamarine glow like a gel slime
             Lighting.AddLight(Projectile.Center, 0.1f, 0.4f, 0.8f);
 
-            // 2. Face the direction it is falling
-            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
-
             // 3. Spawn dripping slime dust trails
             if (Main.rand.NextBool(2)) // 50% chance every frame
             {
