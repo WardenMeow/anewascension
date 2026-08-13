@@ -8,6 +8,11 @@ Biomes: {
 		DisplayName: Gelatinous Caverns
 		TownNPCDialogueName: the Gelatinous Caverns
 	}
+
+	"Gelatinous Caverns": {
+		DisplayName: Gelatinous  Caverns
+		TownNPCDialogueName: the Gelatinous  Caverns
+	}
 }
 
 NPCs.PaintSlime.DisplayName: Paint Slime

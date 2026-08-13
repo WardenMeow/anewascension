@@ -1,69 +1,56 @@
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.GameContent.Generation;
 using Terraria.ID;
-using Terraria.IO;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using Terraria.WorldBuilding;
 
 namespace anewascension.Content.WorldGeneration
 {
     public class CustomCavernGenSystem : ModSystem
     {
-        // Injects your custom pass into the standard Terraria worldgen workflow
-        public void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight) {
-            // "Shinies" is the vanilla pass where ores spawn. 
-            // Spawning right after it ensures the main terrain is already fully generated.
-            int shiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
+        // Bypasses ModifyWorldGenTasks entirely to eliminate compiler and namespace errors
+        public override void PostWorldGen() {
             
-            if (shiniesIndex != -1) {
-                // Insert a new generation pass right after "Shinies"
-                tasks.Insert(shiniesIndex + 1, new PassLegacy("Gelatinous Caverns", GenerateCustomCavernBiome));
-            }
-        }
+            // Log to confirm execution has started
+            Mod.Logger.Info("Custom Cavern Biome PostWorldGen placement started.");
 
-        private void GenerateCustomCavernBiome(GenerationProgress progress, GameConfiguration configuration) {
-            // Update the loading screen text
-            progress.Message = "Gelling The Depths...";
-
-            // Determine how many clusters to spawn based on the world size
-            // Main.maxTilesX values: Small = 4200, Medium = 6400, Large = 8400
-            int numClusters = (int)(Main.maxTilesX * Main.maxTilesY * 0.00002);
-
-            // Fetch your custom block type safely
+            // Grabs your custom block ID
             int targetTile = TileID.SlimeBlock;
+            
+            // Scale cluster count based on world width (Small ~21, Medium ~32, Large ~42)
+            int numClusters = (int)(Main.maxTilesX * 0.005f); 
 
             for (int k = 0; k < numClusters; k++) {
-                // Pick a random X coordinate, leaving a 200-tile buffer from the world edges
-                int x = WorldGen.genRand.Next(200, Main.maxTilesX - 200);
-
-                // Pick a random Y coordinate strictly within the cavern layer
-                // Starts at rockLayer and stops 300 tiles above the underworld/bottom boundary
-                int minY = (int)Main.rockLayer;
-                int maxY = Main.maxTilesY - 300;
+                // Find a random spot leaving a safe margin from the world edges
+                int x = WorldGen.genRand.Next(300, Main.maxTilesX - 300);
+                
+                // Deep Cavern positioning boundary definitions
+                int minY = (int)Main.rockLayer + 100; 
+                int maxY = Main.maxTilesY - 350;      // Stays safely above the Underworld
                 int y = WorldGen.genRand.Next(minY, maxY);
 
-                // Ensure we only place the biome core if it lands inside solid ground (Stone/Dirt)
-                if (Main.tile[x, y].HasTile && (Main.tile[x, y].TileType == TileID.Stone || Main.tile[x, y].TileType == TileID.Dirt)) {
-                    
-                    // WorldGen.TileRunner generates a blob-like cluster of blocks
-                    // Parameters: (X, Y, Random Strength, Random Steps, TileType, OverwriteExisting, SpeedX, SpeedY, NoInvert, Food)
+                // Fetch the tile occupying the selected coordinates
+                ushort currentTileType = Main.tile[x, y].TileType;
+                
+                // Check if the coordinate lands on standard solid world ground (Stone, Dirt, Clay, Mud)
+                bool isValidGround = currentTileType == 1 || currentTileType == 0 || currentTileType == 40 || currentTileType == 59;
+
+                if (Main.tile[x, y].HasTile && isValidGround) {
+                    // Carves out organic, sprawling clusters of your custom cavern block
                     WorldGen.TileRunner(
                         x, 
                         y, 
-                        WorldGen.genRand.Next(35, 60),  // Width/strength of the blob
-                        WorldGen.genRand.Next(40, 75),  // Length/steps of the blob tracking
+                        WorldGen.genRand.Next(45, 75),  // Cluster width
+                        WorldGen.genRand.Next(60, 100), // Cluster length/steps
                         targetTile, 
-                        true,                           // Overwrite existing tiles
-                        0f,                             // Speed X
-                        0f,                             // Speed Y
+                        true,                           // Force overwrite vanilla tiles
+                        0f,                             // X Velocity
+                        0f,                             // Y Velocity
                         false, 
                         true
                     );
                 }
             }
+            
+            Mod.Logger.Info($"Custom Cavern WorldGen executed successfully! Spawned {numClusters} clusters.");
         }
     }
 }
