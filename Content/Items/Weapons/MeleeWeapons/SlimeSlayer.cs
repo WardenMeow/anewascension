@@ -29,7 +29,7 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
             Item.rare = ItemRarityID.Pink;
             Item.UseSound = SoundID.Item1;
 
-            Item.shoot = ProjectileID.StarWrath;
+            Item.shoot = ModContent.ProjectileType<Projectiles.MeleeWeapons.SlimeSlayerProjectile>();
             Item.shootSpeed = 8f;
         }
     

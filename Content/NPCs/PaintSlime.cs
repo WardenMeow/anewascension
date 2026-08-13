@@ -30,7 +30,7 @@ namespace anewascension.Content.NPCs
             NPC.aiStyle = 1; 
             AIType = NPCID.BlueSlime; 
 
-            NPC.alpha = 100; // This makes the slime somewhat transparent. 
+            NPC.alpha = 110; // This makes the slime somewhat transparent. 
         }
 
     public override void ModifyNPCLoot(NPCLoot npcLoot)
