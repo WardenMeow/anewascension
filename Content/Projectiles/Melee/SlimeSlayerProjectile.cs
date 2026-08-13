@@ -24,13 +24,13 @@ namespace anewascension.Content.Projectiles.Melee
          public override void AI()
         {
             // 1. Add a soft blue/aquamarine glow like a gel slime
-            Lighting.AddLight(Projectile.Center, 0.1f, 0.4f, 0.8f);
+            Lighting.AddLight(Projectile.Center, 0.05f, 0.4f, 0.05f);
 
             // 3. Spawn dripping slime dust trails
             if (Main.rand.NextBool(2)) // 50% chance every frame
             {
                 
-                Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.t_Slime);
+                Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.t_GreenSlime);
                 
                 dust.noGravity = false; 
                 dust.scale = Main.rand.NextFloat(0.8f, 1.2f); 
@@ -48,7 +48,7 @@ namespace anewascension.Content.Projectiles.Melee
             // 5. Create a burst of 15 slime splatters hitting the ground
             for (int i = 0; i < 15; i++)
             {
-                Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.t_Slime);
+                Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.t_GreenSlime);
                 
                 // Explode outwards in a splash shape
                 dust.velocity = new Vector2(Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-4f, 0f)); 
