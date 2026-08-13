@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace anewascension.Projectiles.Melee 
+namespace anewascension.Content.Projectiles.Melee 
 {
     public class SlimeSlayerProjectile : ModProjectile
     {
