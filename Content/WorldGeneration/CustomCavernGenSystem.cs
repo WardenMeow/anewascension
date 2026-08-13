@@ -1,3 +1,4 @@
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -6,51 +7,94 @@ namespace anewascension.Content.WorldGeneration
 {
     public class CustomCavernGenSystem : ModSystem
     {
-        // Bypasses ModifyWorldGenTasks entirely to eliminate compiler and namespace errors
         public override void PostWorldGen() {
-            
-            // Log to confirm execution has started
-            Mod.Logger.Info("Custom Cavern Biome PostWorldGen placement started.");
+            Mod.Logger.Info("Generating open Slime Caverns...");
 
-            // Grabs your custom block ID
-            int targetTile = TileID.SlimeBlock;
-            
-            // Scale cluster count based on world width (Small ~21, Medium ~32, Large ~42)
-            int numClusters = (int)(Main.maxTilesX * 0.005f); 
+            ushort tileSlime = TileID.SlimeBlock;
+            ushort wallSlime = WallID.Slime; // Vanilla unsafe slime wall
 
-            for (int k = 0; k < numClusters; k++) {
-                // Find a random spot leaving a safe margin from the world edges
-                int x = WorldGen.genRand.Next(300, Main.maxTilesX - 300);
-                
-                // Deep Cavern positioning boundary definitions
-                int minY = (int)Main.rockLayer + 100; 
-                int maxY = Main.maxTilesY - 350;      // Stays safely above the Underworld
-                int y = WorldGen.genRand.Next(minY, maxY);
+            // Scale generation based on world width (Small ~16, Medium ~25, Large ~33)
+            int numCaverns = (int)(Main.maxTilesX * 0.004f); 
 
-                // Fetch the tile occupying the selected coordinates
-                ushort currentTileType = Main.tile[x, y].TileType;
-                
-                // Check if the coordinate lands on standard solid world ground (Stone, Dirt, Clay, Mud)
-                bool isValidGround = currentTileType == 1 || currentTileType == 0 || currentTileType == 40 || currentTileType == 59;
+            for (int k = 0; k < numCaverns; k++) {
+                int centerX = WorldGen.genRand.Next(400, Main.maxTilesX - 400);
+                int minY = (int)Main.rockLayer + 150; 
+                int maxY = Main.maxTilesY - 400; // Safe distance above underworld
+                int centerY = WorldGen.genRand.Next(minY, maxY);
 
-                if (Main.tile[x, y].HasTile && isValidGround) {
-                    // Carves out organic, sprawling clusters of your custom cavern block
-                    WorldGen.TileRunner(
-                        x, 
-                        y, 
-                        WorldGen.genRand.Next(45, 75),  // Cluster width
-                        WorldGen.genRand.Next(60, 100), // Cluster length/steps
-                        targetTile, 
-                        true,                           // Force overwrite vanilla tiles
-                        0f,                             // X Velocity
-                        0f,                             // Y Velocity
-                        false, 
-                        true
-                    );
+                // Open cavern dimensions
+                int radiusX = WorldGen.genRand.Next(55, 85);
+                int radiusY = WorldGen.genRand.Next(30, 50);
+
+                for (int x = centerX - radiusX; x <= centerX + radiusX; x++) {
+                    for (int y = centerY - radiusY; y <= centerY + radiusY; y++) {
+                        
+                        if (x <= 0 || x >= Main.maxTilesX || y <= 0 || y >= Main.maxTilesY)
+                            continue;
+
+                        // Calculate distance from center to construct an ellipse
+                        float dx = (float)(x - centerX) / radiusX;
+                        float dy = (float)(y - centerY) / radiusY;
+                        float distanceSquared = (dx * dx + dy * dy);
+
+                        if (distanceSquared <= 1.0f) {
+                            Tile tile = Main.tile[x, y];
+
+                            // STAGE 1: Outer Shell Boundary Coating (Gives it a thick rim of slime blocks)
+                            if (distanceSquared > 0.75f && distanceSquared <= 1.0f) {
+                                if (tile.HasTile && IsOverwritable(tile.TileType)) {
+                                    tile.TileType = tileSlime;
+                                }
+                            }
+                            // STAGE 2: Cave Core Carving (Clears the air & paints the unsafe slime background)
+                            else {
+                                // Wipe out solid blocks to create an open room like marble/granite biomes
+                                tile.HasTile = false; 
+                                tile.TileType = 0; 
+                                
+                                // Place vanilla slime background wall (will naturally spawn mobs)
+                                tile.WallType = wallSlime;
+                            }
+                        }
+                    }
+                }
+
+                // STAGE 3: Organic Ledge Generation (Spawns flooring paths across the open space)
+                GenerateSlimeLedges(centerX, centerY, radiusX, radiusY, tileSlime);
+            }
+
+            Mod.Logger.Info("Slime Caverns successfully carved out!");
+        }
+
+        private static bool IsOverwritable(ushort type) {
+            // Protect dungeons, temples, and existing modded setups
+            return type == TileID.Stone || type == TileID.Dirt || type == TileID.ClayBlock || type == TileID.Mud;
+        }
+
+        private static void GenerateSlimeLedges(int cx, int cy, int rx, int ry, ushort tileType) {
+            // Adds horizontal strips of slime blocks inside the cave room so it isn't just an empty bubble
+            int numLedges = WorldGen.genRand.Next(2, 5);
+            for (int i = 0; i < numLedges; i++) {
+                int ledgeY = cy + WorldGen.genRand.Next(-ry + 10, ry - 10);
+                int startX = cx - WorldGen.genRand.Next(rx / 2, rx);
+                int endX = cx + WorldGen.genRand.Next(rx / 2, rx);
+                int thickness = WorldGen.genRand.Next(3, 6);
+
+                for (int x = startX; x <= endX; x++) {
+                    for (int y = ledgeY; y < ledgeY + thickness; y++) {
+                        if (x > 0 && x < Main.maxTilesX && y > 0 && y < Main.maxTilesY) {
+                            // Only draw if inside the carved cave sphere boundary
+                            float dx = (float)(x - cx) / rx;
+                            float dy = (float)(y - cy) / ry;
+                            if ((dx * dx + dy * dy) < 0.85f) {
+                                Tile tile = Main.tile[x, y];
+                                tile.HasTile = true;
+                                tile.TileType = tileType;
+                            }
+                        }
+                    }
                 }
             }
-            
-            Mod.Logger.Info($"Custom Cavern WorldGen executed successfully! Spawned {numClusters} clusters.");
         }
     }
 }
