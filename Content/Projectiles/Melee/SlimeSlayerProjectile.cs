@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace anewascension.Projectiles.Melee 
 {
-    public class MyCustomProjectile : ModProjectile
+    public class SlimeSlayerProjectile : ModProjectile
     {
         public override void SetDefaults()
         {
