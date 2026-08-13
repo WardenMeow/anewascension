@@ -22,16 +22,37 @@ namespace anewascension.Content.Projectiles.Melee
 
          public override void AI()
         {
-            // Add a glowing light (Red, Green, Blue values from 0.0 to 1.0)
-            Lighting.AddLight(Projectile.Center, 0.5f, 0.2f, 0.9f); // Purple glow
+            // 1. Add a soft blue/aquamarine glow like a gel slime
+            Lighting.AddLight(Projectile.Center, 0.1f, 0.4f, 0.8f);
 
-            // Create a trail of particles (Dust)
+            // 2. Face the direction it is falling
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
+
+            // 3. Spawn dripping slime dust trails
             if (Main.rand.NextBool(2)) // 50% chance every frame
             {
-                // Spawns a magic pink/purple dust (DustID.PurpleTorch) at the projectile's position
-                Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.PurpleTorch);
-                dust.noGravity = true; // Makes the dust float instead of falling
-                dust.velocity *= 0.5f; // Makes the trail stay closer together
+                // DustID.Slime is the official blue slime particle
+                Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Slime);
+                
+                dust.noGravity = false; // Let the slime drips pull downwards naturally
+                dust.scale = Main.rand.NextFloat(0.8f, 1.2f); // Randomize size of drips
+                dust.velocity.X *= 0.2f; // Keep the trail tight behind the projectile
+            }
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            // 4. Play a squishy slime splash sound instead of an explosion
+            SoundEngine.PlaySound(SoundID.NPCDeath1, Projectile.position); // Standard slime pop sound
+
+            // 5. Create a burst of 15 slime splatters hitting the ground
+            for (int i = 0; i < 15; i++)
+            {
+                Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Slime);
+                
+                // Explode outwards in a splash shape
+                dust.velocity = new Vector2(Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-4f, 0f)); 
+                dust.scale = Main.rand.NextFloat(0.6f, 1.4f);
             }
         }
     }
