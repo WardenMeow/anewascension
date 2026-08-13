@@ -20,7 +20,6 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
             Item.useAnimation = 20;
             Item.autoReuse = true;
 
-            Item.useStyle = ItemUseStyleID.Swing; // Comment this out if it doesn't work :)
             Item.DamageType = DamageClass.Melee;
             Item.damage = 45;
             Item.knockBack = 6;
@@ -75,26 +74,5 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
         {
             player.itemLocation = player.MountedCenter;
         }
-
-        public override void UseStyle(Player player, Rectangle heldItemFrame)
-        {
-             // 1. Calculate how far along the swing animation is (from 1.0 down to 0.0)
-            float progress = (float)player.itemAnimation / player.itemAnimationMax;
-
-            // 2. Multiply by TwoPi (360 degrees) to get a full spin cycle
-            // player.direction makes it spin forward whether facing left or right
-            float spinAngle = MathHelper.TwoPi * progress * player.direction;
-
-            // 3. Apply the spin directly to the weapon graphic in the hand
-            player.itemRotation = spinAngle;
-
-            // Optional: Add a trail of your green slime particles spinning off the hand!
-            if (Main.rand.NextBool(3))
-            {
-                Dust dust = Dust.NewDustDirect(player.MountedCenter, 10, 10, 16);
-                dust.velocity = player.itemRotation.ToRotationVector2() * 3f;
-                dust.noGravity = true;
-            }
-        }   
     }
 }
