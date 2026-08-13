@@ -27,25 +27,27 @@ namespace anewascension.Content.Projectiles.Melee
             Lighting.AddLight(Projectile.Center, 0.1f, 0.4f, 0.8f);
 
             // 2. Face the direction it is falling
-            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(0f);
 
             // 3. Spawn dripping slime dust trails
             if (Main.rand.NextBool(2)) // 50% chance every frame
             {
-                // DustID.Slime is the official blue slime particle
+                
                 Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.t_Slime);
                 
-                dust.noGravity = false; // Let the slime drips pull downwards naturally
-                dust.scale = Main.rand.NextFloat(0.8f, 1.2f); // Randomize size of drips
-                dust.velocity.X *= 0.2f; // Keep the trail tight behind the projectile
+                dust.noGravity = false; 
+                dust.scale = Main.rand.NextFloat(0.8f, 1.2f); 
+                dust.velocity.X *= 0.2f; 
             }
         }
 
         public override void OnKill(int timeLeft)
         {
-            // 4. Play a squishy slime splash sound instead of an explosion
-            SoundEngine.PlaySound(SoundID.NPCDeath1, Projectile.position); // Standard slime pop sound
 
+            if (Projectile.identity % 3==0)
+            {
+            SoundEngine.PlaySound(SoundID.NPCDeath1, Projectile.position); // Standard slime pop sound
+            }
             // 5. Create a burst of 15 slime splatters hitting the ground
             for (int i = 0; i < 15; i++)
             {
