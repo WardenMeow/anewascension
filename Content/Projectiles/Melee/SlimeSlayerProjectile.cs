@@ -32,7 +32,7 @@ namespace anewascension.Content.Projectiles.Melee
             if (Main.rand.NextBool(2)) // 50% chance every frame
             {
                 // DustID.Slime is the official blue slime particle
-                Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Slime);
+                Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.t_Slime);
                 
                 dust.noGravity = false; // Let the slime drips pull downwards naturally
                 dust.scale = Main.rand.NextFloat(0.8f, 1.2f); // Randomize size of drips
@@ -48,7 +48,7 @@ namespace anewascension.Content.Projectiles.Melee
             // 5. Create a burst of 15 slime splatters hitting the ground
             for (int i = 0; i < 15; i++)
             {
-                Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Slime);
+                Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.t_Slime);
                 
                 // Explode outwards in a splash shape
                 dust.velocity = new Vector2(Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-4f, 0f)); 
