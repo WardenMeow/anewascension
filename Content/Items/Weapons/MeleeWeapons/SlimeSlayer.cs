@@ -20,6 +20,7 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
             Item.useAnimation = 20;
             Item.autoReuse = true;
 
+            // Weapon Stats 
             Item.DamageType = DamageClass.Melee;
             Item.damage = 45;
             Item.knockBack = 6;
