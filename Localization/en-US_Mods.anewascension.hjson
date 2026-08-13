@@ -13,3 +13,5 @@ Items: {
 		Tooltip: ""
 	}
 }
+
+Projectiles.SlimeSlayerProjectile.DisplayName: Slime Slayer Projectile
