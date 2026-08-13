@@ -12,30 +12,33 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
     {
         public override void SetDefaults()
         {
+            // Visual/Animation Properties
             Item.width = 64;
             Item.height = 64;
-
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 20;
             Item.useAnimation = 20;
             Item.autoReuse = true;
 
+            // Weapon Stats
             Item.DamageType = DamageClass.Melee;
             Item.damage = 45;
             Item.knockBack = 6;
             Item.crit = 6;
 
+            // Rarity & Value
             Item.value = Item.buyPrice(gold: 5);
             Item.rare = ItemRarityID.Pink;
             Item.UseSound = SoundID.Item1;
 
-            Item.shoot = ModContent.ProjectileType<Content.Projectiles.Melee.SlimeSlayerProjectile>();
+            // Projectile Shooting Properties
+            Item.shoot = ModContent.ProjectileType<SlimeSlayerProjectile>(); 
             Item.shootSpeed = 8f;
         }
     
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+           public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 target = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY);
+            Vector2 target = Main.MouseWorld; 
             float ceilingLimit = target.Y;
 
             if (ceilingLimit > player.Center.Y - 200f)
@@ -45,8 +48,9 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
 
             for (int i = 0; i < 3; i++)
             {
-                position = player.Center - new Vector2(Main.rand.NextFloat(401) * player.direction, 600f);
-                position.Y -= 100 * i;
+                // 4. Made math numbers consistent and clean
+                position = player.Center - new Vector2(Main.rand.NextFloat(400f) * player.direction, 600f);
+                position.Y -= 100f * i;
 
                 Vector2 heading = target - position;
 
@@ -62,7 +66,7 @@ namespace anewascension.Content.Items.Weapons.MeleeWeapons
 
                 heading.Normalize();
                 heading *= velocity.Length();
-                heading.Y += Main.rand.Next(-40, 41) * 0.02f;
+                heading.Y += Main.rand.NextFloat(-0.8f, 0.8f); 
 
                 Projectile.NewProjectile(source, position, heading, type, damage * 2, knockback, player.whoAmI, 0f, ceilingLimit);
             }
